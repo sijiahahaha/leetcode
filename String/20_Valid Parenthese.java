@@ -13,6 +13,7 @@ Note that an empty string is also considered valid.
   3.pop时考虑stack是否为空
 **/
 
+import java.util.Stack;
 
 class Solution {
     public boolean isValid(String s) {
