@@ -13,12 +13,13 @@ Note that an empty string is also considered valid.
 判断括号是否对等 
 
 # 把string变为char一个个比较： string.toCharArray()
-用stack：
+用stack：O(n)
   1.遇到左就push
   2.右就pop出来一个比较是否一对
   3.pop时考虑stack是否为空
 **/
 
+import java.util.Stack;
 
 class Solution {
     public boolean isValid(String s) {
