@@ -36,6 +36,7 @@ class Solution {
     }
     
     class valueComp implements Comparator<Pair> {
+        @Override
         public int compare(Pair p1, Pair p2) {
             return p1.getValue().compareTo(p2.getValue());
         }
