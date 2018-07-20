@@ -1,9 +1,11 @@
 /**
-分开的情况只有： x1 x2 X1 X2    or  X1 X2 x1 x2
-比较 新进来的 和 刚出去的
-newSum = preSum + (新进来的-刚出去的)
+Given a list of Connections, which is the Connection class (the city name at both ends of the edge and a cost between them), find some edges, connect all the cities and spend the least amount.
+Return the connects if can connect all the cities, otherwise return empty list.
+给定一个graph之类的，有node，edge，cost，求一条最短的走完的路线
 
-注意边界条件
+1. 按照edge(cost) 从小到大排序
+2. 生成树：Union find 
+3. 最后检查是否有环 应该edge size == node - 1
 **/
 
 /**
@@ -23,72 +25,41 @@ public class Solution {
      * @param connections given a list of connections include two cities and cost
      * @return a list of connections from results
      */
-    public List<Connection> lowestCost(List<Connection> connections) {
-        // Write your code here
-        Collections.sort(connections, comp);
-        Map<String, Integer> hash = new HashMap<String, Integer>();
-        int n = 0;
-        for (Connection connection : connections) {
-            if (!hash.containsKey(connection.city1)) {
-                hash.put(connection.city1, ++n);
-            }
-            if (!hash.containsKey(connection.city2)) {
-                hash.put(connection.city2, ++n);
+    
+    public class UFS {
+        int[] f;
+        
+        public UFS(int n) {
+            f = new int[n];
+            for (int i = 0; i < n; i++) {
+                f[i] = -1;
             }
         }
-
-        int[] father = new int[n + 1];
-
-        List<Connection> results = new ArrayList<Connection>();
-        for (Connection connection : connections) {
-            int num1 = hash.get(connection.city1);
-            int num2 = hash.get(connection.city2);
-
-            int root1 = find(num1, father);
-            int root2 = find(num2, father);
-            if (root1 != root2) {
-                father[root1] = root2;
-                results.add(connection);
+        
+        public void union(int a, int b) {
+            a = find(a); // find set root of a
+            b = find(b);
+            
+            if (f[a] < f[b]) { //set a is larger than set b
+                f[a] += f[b];
+                f[b] = a;
+            } else {
+                f[b] += f[a];
+                f[a] = b;
             }
         }
-
-        if (results.size() != n - 1)
-            return new ArrayList<Connection>();
-        return results;
+        
+        public int find(int x) {
+            if (f[x] < 0) { //x is the root
+                return x;
+            }
+            f[x] = find(f[x]);
+            return f[x];
+        }
     }
-
-    static Comparator<Connection> comp = new Comparator<Connection>() {
-        public int compare(Connection a, Connection b) {
-            if (a.cost != b.cost)
-                return a.cost - b.cost;
-            if (a.city1.equals(b.city1)) {
-                return a.city2.compareTo(b.city2);
-            }
-            return a.city1.compareTo(b.city1);
-        }
-    };
-
-    public int find(int num, int[] father) {
-        if (father[num] == 0)
-            return num;
-
-        return father[num] = find(father[num], father);
-    }
-}
-
-// version: 高频题班
-public class Solution {
-    /**
-     * @param connections given a list of connections include two cities and cost
-     * @return a list of connections from results
-     */
-    int n = 0;
-
+    
     public List<Connection> lowestCost(List<Connection> connections) {
-        // Write your code here
-        List<Connection> ans = new ArrayList<>();
-        UFS ufs = new UFS(connections.size() * 2);
-
+        List<Connection> result = new ArrayList<>();
         Collections.sort(connections, new Comparator<Connection>() {
             public int compare(Connection a, Connection b) {
                 if (a.cost != b.cost) {
@@ -100,62 +71,31 @@ public class Solution {
                 return a.city1.compareTo(b.city1);
             }
         });
-
-        for (Connection item : connections) {
-            int c1 = getID(item.city1);
-            int c2 = getID(item.city2);
-            if (ufs.find(c1) != ufs.find(c2)) {
-                ans.add(item);
+        
+        UFS ufs = new UFS(connections.size() * 2);
+        HashMap<String, Integer> map = new HashMap<String, Integer>();
+        int count = 0;
+        
+        for (Connection con : connections) {
+            if (!map.containsKey(con.city1)) {
+                map.put(con.city1, count++);
+            }
+            if (!map.containsKey(con.city2)) {
+                map.put(con.city2, count++);
+            }
+            
+            int c1 = map.get(con.city1);
+            int c2 = map.get(con.city2);
+            if (ufs.find(c1) != ufs.find(c2)) { //different set, save to result, union
+                result.add(con);
                 ufs.union(c1, c2);
             }
         }
-        if (ans.size() == n - 1) {
-            return ans;
-        } else {
+        
+        if (result.size() != count - 1) {
             return new ArrayList<>();
         }
+        return result;
     }
-
-
-    Map<String, Integer> name2ID = new HashMap<>();
-
-    public int getID(String name) {
-        if (name2ID.containsKey(name)) {
-            return name2ID.get(name);
-        } else {
-            name2ID.put(name, n++);
-            return n - 1;
-        }
-    }
-
-    public class UFS {
-        int[] f;          // father
-
-        public UFS(int n) {
-            f = new int[n];
-            for (int i = 0; i < n; i++) {
-                f[i] = -1;
-            }
-        }
-
-        public void union(int a, int b) {
-            a = find(a);
-            b = find(b);
-            if (f[a] < f[b]) {
-                f[a] += f[b];
-                f[b] = a;
-            } else {
-                f[b] += f[a];
-                f[a] = b;
-            }
-        }
-
-        public int find(int x) {
-            if (f[x] < 0) {
-                return x;
-            }
-            f[x] = find(f[x]);
-            return f[x];
-        }
-    }
+    
 }
