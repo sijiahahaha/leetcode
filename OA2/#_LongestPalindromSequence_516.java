@@ -1,11 +1,12 @@
 /**
 Given a string s, find the longest palindromic subsequence's length in s. You may assume that the maximum length of s is 1000.
 
-找subsequence的最长回文串长度
+给了string，找subsequence的最长回文串长度
 
 **
-subsequence：在字符串中提取字符，排列组合 
-subset：子集，连续字符
+[bbbab]
+subsequence：在字符串中提取字符，排列组合 [bbbb]是
+substring：子集，连续字符 [bbbb]不是，因为不连续
 
 1.state f[i][j] 表示字符串i~j中，最长长度
     int[][] f
