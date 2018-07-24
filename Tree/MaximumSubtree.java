@@ -5,6 +5,9 @@ Given a binary tree, find the subtree with maximum sum. Return the root of the s
 leftSum = helper(root.left)
 rightSum = helper(root.right)
 sum = root + leftSum + rightSum
+
+maxSum = max(maxSum, root + leftSum + rightSum)
+return root + leftSum + rightSum
 **/
 
 /**
