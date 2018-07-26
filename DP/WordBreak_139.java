@@ -41,3 +41,34 @@ class Solution {
         return f[s.length()];
     }
 }
+
+
+//优化
+public class Solution {
+    /*
+     * @param s: A string
+     * @param dict: A dictionary of words dict
+     * @return: A boolean
+     */
+    public boolean wordBreak(String s, Set<String> dict) {
+        int maxWord = 0;
+        for (String word : dict) {
+            maxWord = Math.max(maxWord, word.length());
+        }
+        
+        boolean[] f = new boolean[s.length() + 1];
+        f[0] = true;
+        
+        for (int i = 1; i <= s.length(); i++) {
+            f[i] = false;
+            for (int lastWordLength = 1; lastWordLength <= maxWord && lastWordLength <= i; lastWordLength++) {
+                if (f[i - lastWordLength] && dict.contains(s.substring(i - lastWordLength, i))) {
+                    f[i] = true;
+                    break;
+                }
+            } 
+        }
+        
+        return f[s.length()];
+    }
+}
