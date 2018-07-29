@@ -42,3 +42,28 @@ public static int[][] rotate(int[][] matrix, int flag) {
 
 	return trans;
 }
+
+/**
+in-place 在原本的矩阵上替换
+这里是clockwise的例子
+**/
+
+class Solution {
+    public void rotate(int[][] matrix) {
+        if (matrix == null || matrix.length == 0) {
+            return;
+        }
+        
+        int len = matrix.length;
+        
+        for (int i = 0; i < len / 2; i++) {
+            for (int j = 0; j < (len + 1)/2; j++) {
+                int temp = matrix[i][j];
+                matrix[i][j] = matrix[len - j - 1][i];
+                matrix[len - j - 1][i] = matrix[len - i - 1][len - j - 1];
+                matrix[len - i - 1][len - j - 1] = matrix[j][len - i - 1];
+                matrix[j][len - i - 1] = temp;
+            }
+        }
+    }
+}

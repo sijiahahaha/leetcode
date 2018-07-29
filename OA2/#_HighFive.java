@@ -1,4 +1,4 @@
-/**  
+r/**  
 每个学生有两个属性 id 和 scores。找到每个学生最高的5个分数的平均值。
 
 PiorityQueue (fix size = 5) , 小先出， 留大。 用HashMap<Integer, PiorityQueue>储存学生的<id，top 5 score>
@@ -33,36 +33,41 @@ public class Solution {
      * @return find the average of 5 highest scores for each person
      * Map<Integer, Double> (student_id, average_score)
      */
-
-   
     public Map<Integer, Double> highFive(Record[] results) {
-        HashMap<Integer, Double> answer = new HashMap<Integer, Double>(); 
-        HashMap<Integer, PiorityQueue<Integer>> map = new HashMap<Integer, PiorityQueue<Integer>> ();
-        for (Record i : results) {
-            if (!map.containsKey(i.id)) {
-                map.put(i.id, new PiorityQueue<Integer>());
-            }
-            PiorityQueue<Integer> pq = map.get(i.id);
-            if (pq.size() < 5) {
-                pq.offer(i.score);
-            } else {
-                if (i.score > pq.peek()) {
-                    pq.poll();
-                    pq.offer(i.score);
-                }
-            }
+        Map<Integer, Double> result = new HashMap<Integer, Double>();
+        Map<Integer, PriorityQueue<Integer>> map = new HashMap<>();
+        
+        if (results == null || results.length == 0) {
+            return result;
         }
-
-        for (Map.Entry<Integer, PiorityQueue<Integer>> entry : map.entrySet) {
+        for (Record student : results) {
+            if (!map.containsKey(student.id)) {
+                PriorityQueue<Integer> pq = new PriorityQueue<Integer>();
+                map.put(student.id, pq);
+            }
+            PriorityQueue<Integer> pq = map.get(student.id);
+            if (pq.size() < 5) {
+                pq.offer(student.score);
+            } else {
+                if (student.score > pq.peek()) {
+                    pq.poll();
+                    pq.offer(student.score);
+                }
+                
+            }
+            
+        }
+        
+        for (Map.Entry<Integer, PriorityQueue<Integer>> entry : map.entrySet()) {
             int id = entry.getKey();
-            PiorityQueue<Integer> scores = entry.getValue();
-            double avg = 0;
+            PriorityQueue<Integer> scores = entry.getValue();
+            double avg = 0.0;
             for (int i = 0; i < 5; i++) {
                 avg += scores.poll();
             }
             avg /= 5.0;
-            answer.put(id, avg);
+            result.put(id, avg);
         }
-        return answer
+        return result;
     }
 }
