@@ -1,4 +1,4 @@
-/**
+ /**
 不是的情况：
     left不是 || right不是
     有left且 left.minVal >= root.val
