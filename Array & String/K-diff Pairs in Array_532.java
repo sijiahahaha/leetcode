@@ -2,6 +2,7 @@
 Input: [3, 1, 4, 1, 5], k = 2
 Output: 2
 Explanation: There are two 2-diff pairs in the array, (1, 3) and (3, 5).
+找出差值为k的pair
 Although we have two 1s in the input, we should only return the number of unique pairs.
 
 用HashSet记录数字有没有重复
