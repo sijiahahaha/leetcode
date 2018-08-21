@@ -3,6 +3,8 @@ Given an array nums of n integers and an integer target, find three integers in 
 
 遍历a，对后半部分two sum closest，target=-a
 每次记录best diff
+
+O(n^2)
 **/
 
 

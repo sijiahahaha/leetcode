@@ -5,6 +5,7 @@ Given an array nums of n integers, are there elements a, b, c in nums such that 
 
 遍历a，对后半部分two sum，target=-a
 找到之后，要继续，跳过重复的
+O(n^2)   sort (nlogn)  + 遍历(n) * twosum (n)
 **/
 
 
