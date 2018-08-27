@@ -1,7 +1,14 @@
-
 /**
-depth
-**/
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+
+//-----------------------------
 // max depth
 class Solution {
     public int maxDepth(TreeNode root) {
@@ -13,6 +20,7 @@ class Solution {
     }
 }
 
+//-----------------------------
 // min depth
 class Solution {
     public int minDepth(TreeNode root) {
@@ -36,18 +44,18 @@ class Solution {
     }
 }
 
-/**
-max path sum
-**/
+//-----------------------------
+// max path sum
 
 // root to leaf 
+// same as find depth
 class Solution {
     public int maxDepth(TreeNode root) {
         if (root == null) {
             return 0;
         }
-        
-        return Math.max(maxDepth(root.left), maxDepth(root.right)) + root.val;
+        int singlePath = Math.max(maxDepth(root.left), maxDepth(root.right)) + root.val;
+        return singlePath;
     }
 }
 
@@ -58,12 +66,9 @@ class Solution {
         if (root == null) {
             return 0;
         }
-        int left = maxDepth(root.left);
-        int right = maxDepth(root.right);
 
-        int singlePath = Math.max(left.singlePath, right.singlePath) + root.val;
-        singlePath = Math.max(0, singlePath);
-        return singlePath
+        int singlePath = Math.max(maxDepth(root.left), maxDepth(root.right)) + root.val;
+        return Math.max(0, singlePath);
     }
 }
 
@@ -104,9 +109,8 @@ class Solution {
 }
 
 
-/**
-min path sum
-**/
+//-----------------------------
+//min path sum
 
 //root to leaf
 class Solution {
@@ -234,48 +238,3 @@ class Solution {
     }
 }
 
-/**
-find path sum equal target
-**/
-// if has path
-class Solution {
-    public boolean hasPathSum(TreeNode root, int sum) {
-        if (root == null) {
-            return false;
-        }
-        if (root.left == null && root.right == null) {
-            return sum == root.val;
-        }
-        return hasPathSum(root.left, sum - root.val) || hasPathSum(root.right, sum - root.val);
-    }
-}
-
-//find all path
-class Solution {
-    public List<List<Integer>> pathSum(TreeNode root, int sum) {
-        List<List<Integer>> result = new ArrayList<>();
-        if (root == null) {
-            return result;
-        }
-        List<Integer> currPath = new ArrayList<>();
-        dfs(root, sum, result, currPath);
-        return result;
-    }
-    
-    private void dfs(TreeNode root, int sum, List<List<Integer>> result, List<Integer> currPath) {
-        if (root == null) {
-            return;
-        }
-        sum -= root.val;
-        currPath.add(root.val);
-        
-        if (root.left == null && root.right == null && sum == 0) {
-            result.add(new ArrayList<Integer>(currPath));
-            currPath.remove(currPath.size() - 1);
-            return;
-        }
-        dfs(root.left, sum, result, currPath);
-        dfs(root.right, sum, result, currPath);
-        currPath.remove(currPath.size() - 1);
-    }
-}
