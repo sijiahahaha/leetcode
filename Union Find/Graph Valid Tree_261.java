@@ -1,6 +1,6 @@
 /**
 valid tree --> edges = nodes - 1 && 无环
-利用UnionFind找有没有环： 如果find(a) == find(b), 说明ab根相同，若ab再链接，则形成环
+利用Union Find找有没有环： 如果find(a) == find(b), 说明ab根相同，若ab再链接，则形成环
 **/
 class Solution {
     public class UnionFind {
