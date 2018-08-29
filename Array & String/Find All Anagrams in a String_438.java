@@ -1,16 +1,10 @@
-/**  
-Input:
-s: "cbaebabacd" p: "abc"
-
-Output:
-[0, 6]
-
-Explanation:
-The substring with start index = 0 is "cba", which is an anagram of "abc".
-The substring with start index = 6 is "bac", which is an anagram of "abc".
-
-sliding window思想
+/**
+sliding window 思想
+先统计需要的char和count
+遍历string，对于每个char，如果需要它，则match++。每包含一个数都需要--；
+当达到window的长度，下一步，判断window第一个是否需要，扔出去之后对后续有何改变
 **/
+
 class Solution {
     public List<Integer> findAnagrams(String s, String p) {
         int[] need = new int[26];

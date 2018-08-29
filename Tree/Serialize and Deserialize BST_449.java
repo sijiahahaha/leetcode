@@ -7,7 +7,6 @@
   /  \
  15   7
 **/
-
 /**
  * Definition for a binary tree node.
  * public class TreeNode {
@@ -20,6 +19,8 @@
 public class Codec {
 
     // Encodes a tree to a single string.
+    //push TreeNode into queue
+    //each time, poll(), generate string
     public String serialize(TreeNode root) {
         if(root == null){
             return "#";
@@ -49,6 +50,8 @@ public class Codec {
     }
 
     // Decodes your encoded data to tree.
+    // push TreeNode into queue
+    // each time, root = poll(), according to data string, generate root.left, root.right, push left right into queue
     public TreeNode deserialize(String data) {
         data = data.trim();
         if(data.equals("#")){

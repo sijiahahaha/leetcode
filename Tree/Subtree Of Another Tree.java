@@ -1,7 +1,10 @@
 /**
-Given two non-empty binary trees s and t, check whether tree t has exactly the same structure and node values with a subtree of s. A subtree of s is a tree consists of a node in s and all of this node's descendants. The tree s could also be considered as a subtree of itself.
-检验t是否为s的子树
+isSubtree(TreeNode s, TreeNode t) = 
+        isSubtree(s.left, t) || isSubtree(s.right, t) || isSameTree(s, t);
+isSameTree(TreeNode s, TreeNode t) = 
+        isSameTree(s.left, t.left) && isSameTree(s.right, t.right);
 **/
+
 
 /**
  * Definition for a binary tree node.
@@ -20,18 +23,19 @@ class Solution {
         if (s == null) {
             return false;
         }
-        
-        return isSubtree(s.left,t) || isSubtree(s.right,t) || isSameTree(s,t);        
+        return isSubtree(s.left, t) || isSubtree(s.right, t) || isSameTree(s, t);
     }
-    
-    public boolean isSameTree(TreeNode s, TreeNode t) {
+    private boolean isSameTree(TreeNode s, TreeNode t) {
         if (s == null && t == null) {
             return true;
         }
-        if (s == null || t == null || s.val != t.val) {
+        if (s == null || t == null) {
             return false;
         }
-        
+        if (s.val != t.val) {
+            return false;
+        }
         return isSameTree(s.left, t.left) && isSameTree(s.right, t.right);
+        
     }
 }
