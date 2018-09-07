@@ -12,20 +12,25 @@ Output:
 **/
 class Solution {
     public List<List<String>> groupAnagrams(String[] strs) {
+        List<List<String>> result = new ArrayList<>();
         if (strs == null || strs.length == 0) {
-            return new ArrayList<>();
+            return result;
         }
         Map<String, List<String>> map = new HashMap<>();
         for (String s : strs) {
-            char[] sc = s.toCharArray();
-            Arrays.sort(sc);
-            String key = String.valueOf(sc);
+            char[] c = s.toCharArray();
+            Arrays.sort(c);
+            String key = String.valueOf(c);
             if (!map.containsKey(key)) {
-                map.put(key, new ArrayList<>());
+                map.put(key, new ArrayList<String>());
             }
             map.get(key).add(s);
         }
-        
-        return new ArrayList<>(map.values());
+
+        for (Map.Entry<String, List<String>> entry : map.entrySet()) {
+            result.add(entry.getValue());
+        }
+
+        return result;
     }
 }

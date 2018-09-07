@@ -13,68 +13,44 @@ BFS
 
 **/
 //dfs
-public class Solution {
-    int[] xDirections = new int[] {0, 1, 0, -1};
-    int[] yDirections = new int[] {1, 0, -1, 0};
-    /**
-     * @param grid: a list of lists of integers
-     * @return: return an integer, denote the number of distinct islands
-     */
-    public int numberofDistinctIslands(int[][] grid) {
-        // write your code here
-        Set<String> set = new HashSet<>();
-        
-        if (grid.length == 0 || grid[0].length == 0) {
+class Solution {
+    public int numDistinctIslands(int[][] grid) {
+        if (grid == null || grid.length == 0 || grid[0] == null || grid[0].length == 0) {
             return 0;
         }
-        
-        for (int i = 0; i < grid.length; i++) {
-            for (int j = 0; j < grid[0].length; j++) {
+        int m = grid.length;
+        int n = grid[0].length;
+        HashSet<String> set = new HashSet<>();
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
                 if (grid[i][j] == 1) {
-                    String path = dfs(grid, i, j);
+                    String path = dfs(i, j, grid);
                     set.add(path);
                 }
             }
         }
-        
         return set.size();
     }
     
-    private String dfs(int[][] grid, int i, int j) {
+    private String dfs(int i, int j, int[][] grid) {
         String path = "";
-        
+        int m = grid.length;
+        int n = grid[0].length;
+        int[] xd = {1, 0, -1, 0};
+        int[] yd = {0, 1, 0, -1};
         for (int k = 0; k < 4; k++) {
-            int x = i + xDirections[k];
-            int y = j + yDirections[k];
+            int x = i + xd[k];
+            int y = j + yd[k];
             
-            if (!isInbound(grid, x, y)) {
+            if (x < 0 || x >= m || y < 0 || y >= n || grid[x][y] == 0) {
                 continue;
             }
-            
-            if (grid[x][y] == 0) {
-                continue;
-            }
-            
             grid[x][y] = 0;
-            path += k + dfs(grid, x, y);
+            path += k + dfs(x, y, grid);
         }
-        
-        return path.length() != 0 ? path : ";";
-    }
-    
-    private boolean isInbound(int[][] grid, int i, int j) {
-        if (i < 0 || i >= grid.length) {
-            return false;
-        }
-        
-        if (j < 0 || j >= grid[0].length) {
-            return false;
-        }
-        
-        return true;
+        return path.length() != 0 ? path : ";" ;
     }
 }
-
 
 
 
