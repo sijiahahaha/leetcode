@@ -60,8 +60,7 @@ public class Solution {
  / \    \
 4-> 5 -> 7 -> NULL
 
-用stack， level order travers
-用dummy表示level最后
+用levelStart， nextLevelStart， nextLevelNode来做
 **/
 
 /**
@@ -77,33 +76,37 @@ public class Solution {
         if (root == null) {
             return;
         }
-        Queue<TreeLinkNode> que = new LinkedList<>();
-        TreeLinkNode dummy = new TreeLinkNode(0);
-        que.offer(root);
-        que.offer(dummy);
-        while (!que.isEmpty()) {
-            TreeLinkNode curr = que.poll();
-            if (curr == dummy) {
-                if (!que.isEmpty()) {
-                    que.offer(dummy);
+        TreeLinkNode levelStart = root;
+        while (levelStart != null) {
+            TreeLinkNode curr = levelStart;
+            TreeLinkNode nextLevelStart = null;
+            TreeLinkNode nextLevelNode = null;
+            while (curr != null) {
+                if (curr.left != null) {
+                    if (nextLevelStart == null) {
+                        nextLevelStart = curr.left;
+                        nextLevelNode = nextLevelStart;
+                    } else {
+                        nextLevelNode.next = curr.left;
+                        nextLevelNode = nextLevelNode.next;
+                    }
                 }
-                continue;
+
+                if (curr.right != null) {
+                    if (nextLevelStart == null) {
+                        nextLevelStart = curr.right;
+                        nextLevelNode = nextLevelStart;
+                    } else {
+                        nextLevelNode.next = curr.right;
+                        nextLevelNode = nextLevelNode.next;
+                    }
+                }
+                curr = curr.next;
             }
-            
-            if (que.peek() == dummy) {
-                curr.next = null;
-            } else {
-                curr.next = que.peek();
-            }
-            
-            if (curr.left != null) {
-                que.offer(curr.left);
-            }
-            if (curr.right != null) {
-                que.offer(curr.right);
-            }
-            
+            levelStart = nextLevelStart;
         }
+        
+        
     
     }
 }
