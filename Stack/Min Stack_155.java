@@ -13,35 +13,35 @@ minStack用来记录每个值进入后，当前最小值
 
 **/
 
-import java.util.Stack;
-
-class Solution {
-    public int longestValidParentheses(String s) {
-        if (s == null || s.length() == 0) {
-            return 0;
+class MinStack {
+    
+    /** initialize your data structure here. */
+    public Stack<Integer> stack = new Stack<>();
+    public Stack<Integer> minStack = new Stack<>();
+    public MinStack() {
+        stack = new Stack<Integer>();
+        minStack = new Stack<Integer>();
+    }
+    
+    public void push(int x) {
+        stack.push(x);
+        if (minStack.isEmpty()) {
+            minStack.push(x);
+        } else {
+            minStack.push(Math.min(minStack.peek(), x));
         }
-        
-        Stack<Integer> stack = new Stack<Integer>();
-        int pre = 0;
-        int max = 0;
-        for (int i = 0; i < s.length(); i++) {
-            if (s.charAt(i) == '(') {
-                stack.push(i);
-            } else {
-                if (stack.isEmpty()) {
-                    pre = 0;
-                } else {
-                    int currLen = i - stack.pop() + 1;
-                    if (stack.isEmpty()) {
-                        pre += currLen;
-                        max = Math.max(max, pre);
-                    } else {
-                        max = Math.max(max, i - stack.peek());
-                    }
-                }
-            }
-        }
-        
-        return max;
+    }
+    
+    public void pop() {
+        minStack.pop();
+        stack.pop();
+    }
+    
+    public int top() {
+        return stack.peek();
+    }
+    
+    public int getMin() {
+        return minStack.peek();
     }
 }
