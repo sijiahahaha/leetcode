@@ -15,7 +15,6 @@ Explanation: [4,-1,2,1] has the largest sum = 6
 4.answer
      maxSum
 
-#优化： 先求出dict中最长词的长度，s[j,i]超过了，就不是
 **/
 
 class Solution {
