@@ -5,7 +5,7 @@ Output: ["0","2->4","6","8->9"]
 
 class Solution {
     public List<String> summaryRanges(int[] nums) {
-        List<String> summary = new List<>();
+        List<String> summary = new ArrayList<>();
         if (nums == null || nums.length == 0) {
             return summary;
         }
@@ -18,18 +18,22 @@ class Solution {
             end = curr - 1;
             summary.add(makeRange(start, end, nums));
             start = curr;
+
         }
-        end = nums[nums.length - 1];
+        end = nums.length - 1;
         summary.add(makeRange(start, end, nums));
         return summary;
     }
 
     private String makeRange(int start, int end, int[] nums) {
+        String str = "";
         if (start == end) {
             str = String.format("%d", nums[start]);
         } else {
             str = String.format("%d->%d", nums[start], nums[end]);
         }
         return str;
-    }
+    } 
 }
+
+
