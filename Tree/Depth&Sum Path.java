@@ -238,6 +238,7 @@ class Solution {
 find path sum equal target
 **/
 // if has path
+path_sum_i.java  
 class Solution {
     public boolean hasPathSum(TreeNode root, int sum) {
         if (root == null) {
@@ -250,6 +251,7 @@ class Solution {
     }
 }
 
+path_sum_ii.java  
 //find all path
 class Solution {
     public List<List<Integer>> pathSum(TreeNode root, int sum) {
@@ -277,5 +279,23 @@ class Solution {
         dfs(root.left, sum, result, currPath);
         dfs(root.right, sum, result, currPath);
         currPath.remove(currPath.size() - 1);
+    }
+}
+
+path_sum_iii.java 
+// any to any, but must downwards 
+class Solution {
+    public int pathSum(TreeNode root, int sum) {
+        if (root == null) return 0;
+        return helper(root, sum) + pathSum(root.left, sum) + pathSum(root.right, sum);
+    }
+    private int helper(TreeNode root, int sum) {
+        int count = 0;
+        if (root == null) return count;
+        sum -= root.val;
+        if (sum == 0) count++;
+        count += helper(root.left, sum);
+        count += helper(root.right, sum);
+        return count;
     }
 }
