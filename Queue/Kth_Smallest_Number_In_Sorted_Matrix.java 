@@ -1,0 +1,53 @@
+Kth_Smallest_Number_In_Sorted_Matrix.java  
+
+public class Solution {
+    /**
+     * @param matrix: a matrix of integers
+     * @param k: An integer
+     * @return: the kth smallest number in the matrix
+     */
+    public class Pair {
+	    int val;
+	    int x;
+	    int y;
+	    public Pair(int val, int x, int y) {
+		    this.val = val;
+		    this.x = x;
+		    this.y = y;
+	    }
+    }
+    public int kthSmallest(int[][] matrix, int k) {
+        // write your code here
+        if (matrix == null || matrix.length == 0 || matrix[0] == null || matrix[0].length == 0) {
+			throw new IllegalArgumentException("invalid input matrix");
+		}
+		int m = matrix.length;
+		int n = matrix[0].length;
+		PriorityQueue<Pair> pq = new PriorityQueue<Pair>(new Comparator<Pair>() {
+			@Override
+			public int compare(Pair a, Pair b) {
+				return a.val - b.val;
+			}
+		});
+		boolean[][] visited = new boolean[m][n];
+		pq.offer(new Pair(matrix[0][0], 0, 0));
+		visited[0][0] = true;
+		int count = 0;
+		while(pq.size() != 0) {
+			Pair curr = pq.poll();
+			count ++;
+			if (count == k) {
+				return curr.val;
+			}
+			if (curr.x + 1 < m && !visited[curr.x + 1][curr.y]) {
+				pq.offer(new Pair(matrix[curr.x + 1][curr.y], curr.x + 1, curr.y));
+				visited[curr.x + 1][curr.y] = true;
+			}
+			if (curr.y + 1 < n && !visited[curr.x][curr.y + 1]) {
+				pq.offer(new Pair(matrix[curr.x][curr.y + 1], curr.x, curr.y + 1));
+				visited[curr.x][curr.y + 1] = true;
+			}
+		}
+		return -1;
+    }
+}

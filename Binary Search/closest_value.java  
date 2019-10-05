@@ -1,0 +1,25 @@
+closest_value.java  
+class Solution {
+    public int closest(int target, int[] nums) {
+        if (nums == null || nums.length < 2) {
+            throw new IllegalArgumentException("Invalid input");
+        }
+        Arrays.sort(nums);
+        int left = 0;
+        int right = nums.length - 1;
+        int minDiff = Integer.MAX_VALUE;
+        while (left < right) {
+            if (nums[left] + nums[right] > target) {
+                right --;
+            } else {
+                minDiff = Math.min(minDiff, target - nums[left] - nums[right]);
+                left ++;
+            }
+        }
+        if (minDiff == Integer.MAX_VALUE) {
+            return -1;
+        }
+        return target - minDiff;
+
+    }
+}
